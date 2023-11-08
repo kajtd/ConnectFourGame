@@ -5,6 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx,vue}",
   ],
   theme: {
+    fontSize: {
+      'l': '56px',
+      'm': '24px',
+      's': '20px',
+      'xs': '16px',
+    }, 
     extend: {
       colors: {
         'royal-purple': '#5C2DD5',
