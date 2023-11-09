@@ -3,10 +3,10 @@ import { storeToRefs } from 'pinia'
 import { useGameStore } from '../../store/game'
 
 const gameStore = useGameStore()
-const { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS, addNewMarker } = gameStore;
+const { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS, addNewCounter } = gameStore;
 const { currentColumn, board } = storeToRefs(gameStore)
 
-const handleMarkerMousemove = (col: number) => {
+const handleCounterMousemove = (col: number) => {
     currentColumn.value = col
 }
 
@@ -20,8 +20,8 @@ const handleMarkerMousemove = (col: number) => {
                 :key="j" 
                 class="w-16 h-16 bg-royal-purple border-black border-[3px] rounded-full cursor-pointer"
                 :class="{ '!bg-salmon-pink': board[j-1][i-1] === 'red', '!bg-mustard-yellow': board[j-1][i-1] === 'yellow' }"
-                @mousemove="handleMarkerMousemove(j)"
-                @click="addNewMarker"
+                @mousemove="handleCounterMousemove(j)"
+                @click="addNewCounter"
             >
             </div>
         </div>

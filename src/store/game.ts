@@ -43,7 +43,7 @@ export const useGameStore = defineStore('game', () => {
           }
         }
       }
-      
+
       // HANDLE THE FULL BOARD SITUATION
       if (board.value.every(array => array.every(element => element !== ''))) {
         return true
@@ -52,7 +52,7 @@ export const useGameStore = defineStore('game', () => {
       return false;
     }
 
-    const addNewMarker = () => {
+    const addNewCounter = () => {
       const playerName = firstPlayerTurn.value ? 'red' : 'yellow';
 
       const column = board.value[currentColumn.value-1];
@@ -90,7 +90,7 @@ export const useGameStore = defineStore('game', () => {
       NUMBER_OF_COLUMNS, 
       NUMBER_OF_ROWS, 
       board, 
-      addNewMarker, 
+      addNewCounter, 
       firstPlayerTurn,
       handleRestart,
       playerOneScore,
