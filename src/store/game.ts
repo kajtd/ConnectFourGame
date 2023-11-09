@@ -49,14 +49,13 @@ export const useGameStore = defineStore('game', () => {
 
     const addNewMarker = () => {
       const playerName = firstPlayerTurn.value ? 'red' : 'yellow';
-      firstPlayerTurn.value = !firstPlayerTurn.value
 
       const column = board.value[currentColumn.value-1];
       const lastNonEmptyIndex = column.length - column.slice().reverse().findIndex((el: string) => el === '') - 1;
-
-      if (lastNonEmptyIndex !== -1) {
+      if (lastNonEmptyIndex < 6) {
         column[lastNonEmptyIndex] = playerName;
         const isWinner = checkForWinner(playerName)
+        firstPlayerTurn.value = !firstPlayerTurn.value
         if (isWinner) {
           endGame(playerName)
         }
