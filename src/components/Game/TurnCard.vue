@@ -1,12 +1,48 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import { storeToRefs } from 'pinia'
 import { useGameStore } from '../../store/game'
 
 const gameStore = useGameStore()
+const { endGame } = gameStore;
 const { firstPlayerTurn } = storeToRefs(gameStore)
 
 const playerNumber = computed(() => firstPlayerTurn.value ? 1 : 2)
+
+let timerId: number | null = null;
+const timeLeft = ref(30);
+
+// Start or reset the timer
+const startTimer = () => {
+  if (timerId) {
+    clearTimeout(timerId);
+  }
+
+  timeLeft.value = 30;
+  timerId = setInterval(() => {
+    if (timeLeft.value > 0) {
+      timeLeft.value--;
+    } else {
+      // Time's up, current player loses
+      endGame(firstPlayerTurn ? 'yellow' : 'red')
+      clearTimeout(timerId!);
+    }
+  }, 1000);
+}
+
+watch(() => firstPlayerTurn.value, () => {
+  clearTimeout(timerId!);
+  startTimer();
+});
+
+onUnmounted(() => {
+  if (timerId) {
+    clearTimeout(timerId);
+  }
+});
+
+onMounted(startTimer);
+
 </script>
 
 <template>
@@ -15,6 +51,6 @@ const playerNumber = computed(() => firstPlayerTurn.value ? 1 : 2)
         :class="{'bg-turn-card-red': playerNumber === 1, 'bg-turn-card-yellow': playerNumber === 2}"
     >
         <h3 class="text-xs font-bold">PLAYER {{ playerNumber }}’S TURN</h3>
-        <div class="text-l font-bold">14s</div>
+        <div class="text-l font-bold">{{ timeLeft }}s</div>
     </div>
 </template>

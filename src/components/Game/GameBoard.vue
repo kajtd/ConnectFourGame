@@ -1,8 +1,14 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useGameStore } from '../../store/game'
+
 import GameHeader from './GameHeader.vue';
 import PlayerCard from './PlayerCard.vue';
 import TurnCard from './TurnCard.vue';
 import TheBoard from './TheBoard.vue';
+
+const gameStore = useGameStore()
+const { playerOneScore, playerTwoScore } = storeToRefs(gameStore)
 
 </script>
 
@@ -12,13 +18,13 @@ import TheBoard from './TheBoard.vue';
             <GameHeader />
             <div class="mt-8 flex justify-between items-center relative">
                 <PlayerCard 
-                    :player-number="2" 
-                    :player-score="2" 
+                    :player-number="1" 
+                    :player-score="playerOneScore" 
                 />
                 <TheBoard />
                 <PlayerCard 
                     :player-number="2" 
-                    :player-score="12" 
+                    :player-score="playerTwoScore" 
                 />
                 <TurnCard />
             </div>
