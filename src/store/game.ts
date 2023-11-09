@@ -43,6 +43,11 @@ export const useGameStore = defineStore('game', () => {
           }
         }
       }
+      
+      // HANDLE THE FULL BOARD SITUATION
+      if (board.value.every(array => array.every(element => element !== ''))) {
+        return true
+      }
     
       return false;
     }
