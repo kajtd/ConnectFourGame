@@ -20,6 +20,10 @@ export default {
       },
       boxShadow: {
         'primary': '0 10px 10px #000',
+      },
+      backgroundImage: {
+        'turn-card-red': "url('./assets/images/turn-background-red.svg')",
+        'turn-card-yellow': "url('./assets/images/turn-background-yellow.svg')",
       }
     }
   },
