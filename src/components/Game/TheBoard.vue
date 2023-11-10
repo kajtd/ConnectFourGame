@@ -13,7 +13,7 @@ const boardRef = ref<HTMLDivElement | null>(null)
 const handleCounterMousemove = (col: number) => {
     currentColumn.value = col
     const boardOffsetLeft = boardRef.value?.offsetLeft || 0;
-    markerPosition.value = (boardOffsetLeft + 36) + ((currentColumn.value-1) * 88);
+    markerPosition.value = (boardOffsetLeft + 32) + ((currentColumn.value-1) * 88);
 }
 
 onMounted(() => {
@@ -31,7 +31,7 @@ onMounted(() => {
         class="absolute -top-5 left-0"
         :style="`left: ${markerPosition}px;`"
     >
-    <div ref="boardRef" class="w-[632px] h-[584px] pb-10 p-5 grid grid-cols-1 grid-rows-6 bg-white border-[3px] border-black rounded-[40px]">
+    <div ref="boardRef" class="w-[632px] h-[584px] pb-10 px-1 grid grid-cols-1 grid-rows-6 bg-white border-[3px] border-black rounded-[40px]">
         <div v-for="i in NUMBER_OF_ROWS" :key="i" class="grid grid-cols-7 h-[97px]">
             <div 
                 v-for="j in NUMBER_OF_COLUMNS" 
