@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useGameStore } from '../../store/game'
 
 const gameStore = useGameStore()
 const { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS, addNewCounter } = gameStore;
-const { currentColumn, board } = storeToRefs(gameStore)
+const { currentColumn, board, firstPlayerTurn } = storeToRefs(gameStore)
 
 const markerPosition = ref(0)
 const boardRef = ref<HTMLDivElement | null>(null)
+
+const playerNumber = computed(() => firstPlayerTurn.value ? 1 : 2)
 
 const handleCounterMousemove = (col: number) => {
     currentColumn.value = col
@@ -25,12 +27,12 @@ onMounted(() => {
 </script>
 
 <template>
-    <img 
-        src="./../../assets/images/marker-red.svg" 
-        alt="" 
-        class="absolute -top-5 left-0"
+    <div 
+        class="bg-contain bg-center bg-no-repeat absolute -top-8 left-0 h-8 w-10"
         :style="`left: ${markerPosition}px;`"
+        :class="{'bg-marker-red': playerNumber === 1, 'bg-marker-yellow': playerNumber === 2}"
     >
+    </div>
     <div ref="boardRef" class="w-[632px] h-[584px] pb-10 px-1 grid grid-cols-1 grid-rows-6 bg-white border-[3px] border-black rounded-[40px]">
         <div v-for="i in NUMBER_OF_ROWS" :key="i" class="grid grid-cols-7 h-[97px]">
             <div 
