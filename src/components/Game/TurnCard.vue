@@ -4,31 +4,10 @@ import { storeToRefs } from 'pinia'
 import { useGameStore } from '../../store/game'
 
 const gameStore = useGameStore()
-const { endGame } = gameStore;
-const { firstPlayerTurn } = storeToRefs(gameStore)
+const { endGame, timerId, startTimer } = gameStore;
+const { firstPlayerTurn, timeLeft } = storeToRefs(gameStore)
 
 const playerNumber = computed(() => firstPlayerTurn.value ? 1 : 2)
-
-let timerId: number | null = null;
-const timeLeft = ref(30);
-
-// Start or reset the timer
-const startTimer = () => {
-  if (timerId) {
-    clearTimeout(timerId);
-  }
-
-  timeLeft.value = 30;
-  timerId = setInterval(() => {
-    if (timeLeft.value > 0) {
-      timeLeft.value--;
-    } else {
-      // Time's up, current player loses
-      endGame(firstPlayerTurn ? 'yellow' : 'red')
-      clearTimeout(timerId!);
-    }
-  }, 1000);
-}
 
 watch(() => firstPlayerTurn.value, () => {
   clearTimeout(timerId!);

@@ -14,6 +14,10 @@ export const useGameStore = defineStore('game', () => {
     const playerOneScore = ref(0)
     const playerTwoScore = ref(0)
 
+    
+    let timerId: number | null = null;
+    const timeLeft = ref(30);
+
     const board = ref<string[][]>(Array.from({length: NUMBER_OF_COLUMNS}, () => Array(NUMBER_OF_ROWS).fill('')))
 
     const checkForWinner = (playerName: string) => {
@@ -74,6 +78,8 @@ export const useGameStore = defineStore('game', () => {
 
     const handleRestart = () => {
       clearTheBoard()
+      clearTimeout(timerId!);
+      startTimer();
       playerOneScore.value = 0
       playerTwoScore.value = 0
       firstPlayerTurn.value = true
@@ -82,6 +88,26 @@ export const useGameStore = defineStore('game', () => {
     const endGame = (playerName: string) => {
       playerName === 'red' ? playerOneScore.value++ : playerTwoScore.value++
       clearTheBoard()
+    }
+
+    // Start or reset the timer
+    const startTimer = () => {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+
+      timeLeft.value = 30;
+      timerId = setInterval(() => {
+        if (timeLeft.value > 0) {
+          timeLeft.value--;
+        } else {
+          // Time's up, current player loses
+          endGame(firstPlayerTurn.value ? 'yellow' : 'red')
+          firstPlayerTurn.value = !firstPlayerTurn.value
+          clearTimeout(timerId!);
+          startTimer();
+        }
+      }, 1000);
     }
   
     return { 
@@ -97,5 +123,8 @@ export const useGameStore = defineStore('game', () => {
       playerOneScore,
       playerTwoScore,
       endGame,
+      startTimer,
+      timeLeft,
+      timerId
     }
   })
