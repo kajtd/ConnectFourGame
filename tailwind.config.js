@@ -24,6 +24,8 @@ export default {
       backgroundImage: {
         'turn-card-red': "url('./assets/images/turn-background-red.svg')",
         'turn-card-yellow': "url('./assets/images/turn-background-yellow.svg')",
+        'marker-red': "url('./assets/images/marker-red.svg')",
+        'marker-yellow': "url('./assets/images/marker-yellow.svg')",
       }
     }
   },
