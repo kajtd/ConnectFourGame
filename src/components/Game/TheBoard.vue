@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useGameStore } from '../../store/game'
 
@@ -6,23 +7,44 @@ const gameStore = useGameStore()
 const { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS, addNewCounter } = gameStore;
 const { currentColumn, board } = storeToRefs(gameStore)
 
+const markerPosition = ref(0)
+const boardRef = ref<HTMLDivElement | null>(null)
+
 const handleCounterMousemove = (col: number) => {
     currentColumn.value = col
+    const boardOffsetLeft = boardRef.value?.offsetLeft || 0;
+    markerPosition.value = (boardOffsetLeft + 36) + ((currentColumn.value-1) * 88);
 }
+
+onMounted(() => {
+  // Since the boardRef may not be available immediately, we ensure the component is mounted first.
+  // This way we can correctly calculate positions with the actual DOM element's offset.
+  handleCounterMousemove(currentColumn.value || 1)
+})
 
 </script>
 
 <template>
-    <div class="w-[632px] h-[584px] p-5 pb-[60px] flex flex-col gap-6 bg-white border-[3px] border-black rounded-[40px]">
-        <div v-for="i in NUMBER_OF_ROWS" :key="i" class="flex gap-6 items-center">
+    <img 
+        src="./../../assets/images/marker-red.svg" 
+        alt="" 
+        class="absolute -top-5 left-0"
+        :style="`left: ${markerPosition}px;`"
+    >
+    <div ref="boardRef" class="w-[632px] h-[584px] pb-10 p-5 grid grid-cols-1 grid-rows-6 bg-white border-[3px] border-black rounded-[40px]">
+        <div v-for="i in NUMBER_OF_ROWS" :key="i" class="grid grid-cols-7 h-[97px]">
             <div 
                 v-for="j in NUMBER_OF_COLUMNS" 
                 :key="j" 
-                class="w-16 h-16 bg-royal-purple border-black border-[3px] rounded-full cursor-pointer"
-                :class="{ '!bg-salmon-pink': board[j-1][i-1] === 'red', '!bg-mustard-yellow': board[j-1][i-1] === 'yellow' }"
+                class="grid place-items-center"
                 @mousemove="handleCounterMousemove(j)"
                 @click="addNewCounter"
             >
+                <div 
+                    class="w-16 h-16 bg-royal-purple border-black border-[3px] rounded-full cursor-pointer"
+                    :class="{ '!bg-salmon-pink': board[j-1][i-1] === 'red', '!bg-mustard-yellow': board[j-1][i-1] === 'yellow' }"
+                >
+                </div>
             </div>
         </div>
     </div>
