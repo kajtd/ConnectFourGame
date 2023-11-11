@@ -22,6 +22,12 @@ export const useGameStore = defineStore('game', () => {
 
     const board = ref<string[][]>(Array.from({length: NUMBER_OF_COLUMNS}, () => Array(NUMBER_OF_ROWS).fill('')))
 
+    
+    const startPlayerVsPlayerMode = () => {
+      isGameOn.value = true
+      handleRestart()
+    }
+    
     const checkForWinner = (playerName: string) => {
       const directions = [
         [0, 1], // horizontal
@@ -84,6 +90,7 @@ export const useGameStore = defineStore('game', () => {
       startTimer();
       playerOneScore.value = 0
       playerTwoScore.value = 0
+      winner.value = ''
       firstPlayerTurn.value = true
     }
 
@@ -138,6 +145,7 @@ export const useGameStore = defineStore('game', () => {
       timeLeft,
       timerId,
       winner,
-      playAgain
+      playAgain,
+      startPlayerVsPlayerMode
     }
   })

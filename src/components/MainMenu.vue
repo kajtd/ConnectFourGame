@@ -3,7 +3,8 @@ import { storeToRefs } from 'pinia'
 import { useGameStore } from '../store/game'
 
 const gameStore = useGameStore()
-const { areRulesVisible, isGameOn } = storeToRefs(gameStore)
+const { startPlayerVsPlayerMode } = gameStore;
+const { areRulesVisible } = storeToRefs(gameStore)
 </script>
 
 <template>
@@ -11,7 +12,7 @@ const { areRulesVisible, isGameOn } = storeToRefs(gameStore)
         <img src="./../assets/images/logo.svg" alt="" class="w-[52px] h-[52px] mb-12">
         <button 
             class="w-full rounded-[20px] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] px-[18.5px] h-[72px] flex items-center justify-between font-bold uppercase border-black border-[3px] shadow-primary bg-mustard-yellow text-black text-m"
-            @click="isGameOn = true"
+            @click="startPlayerVsPlayerMode"
             >
             Play vs Player <img src="./../assets/images/player-vs-player.svg" alt="">
         </button>
