@@ -5,7 +5,7 @@ import { useGameStore } from '../../store/game'
 
 const gameStore = useGameStore()
 const { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS, addNewCounter } = gameStore;
-const { currentColumn, board, firstPlayerTurn } = storeToRefs(gameStore)
+const { currentColumn, board, firstPlayerTurn, winner } = storeToRefs(gameStore)
 
 const markerPosition = ref(0)
 const boardRef = ref<HTMLDivElement | null>(null)
@@ -39,6 +39,7 @@ onMounted(() => {
                 v-for="j in NUMBER_OF_COLUMNS" 
                 :key="j" 
                 class="grid place-items-center"
+                :class="{'pointer-events-none': winner}"
                 @mousemove="handleCounterMousemove(j)"
                 @click="addNewCounter"
             >

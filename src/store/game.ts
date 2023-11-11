@@ -14,6 +14,8 @@ export const useGameStore = defineStore('game', () => {
     const playerOneScore = ref(0)
     const playerTwoScore = ref(0)
 
+    const winner = ref<'red' | 'yellow' | ''>('');
+
     
     let timerId: number | null = null;
     const timeLeft = ref(30);
@@ -85,9 +87,14 @@ export const useGameStore = defineStore('game', () => {
       firstPlayerTurn.value = true
     }
 
-    const endGame = (playerName: string) => {
-      playerName === 'red' ? playerOneScore.value++ : playerTwoScore.value++
+    const playAgain = () => {
       clearTheBoard()
+      winner.value = ''
+    }
+
+    const endGame = (playerName: 'red' | 'yellow') => {
+      playerName === 'red' ? playerOneScore.value++ : playerTwoScore.value++
+      winner.value = playerName
     }
 
     // Start or reset the timer
@@ -125,6 +132,8 @@ export const useGameStore = defineStore('game', () => {
       endGame,
       startTimer,
       timeLeft,
-      timerId
+      timerId,
+      winner,
+      playAgain
     }
   })
