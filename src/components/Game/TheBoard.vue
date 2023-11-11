@@ -42,11 +42,12 @@ onMounted(() => {
                 @mousemove="handleCounterMousemove(j)"
                 @click="addNewCounter"
             >
-                <div 
-                    class="w-[34px] h-[34px] md:w-16 md:h-16 bg-royal-purple border-black border-[3px] rounded-full cursor-pointer"
-                    :class="{ '!bg-salmon-pink': board[j-1][i-1] === 'red', '!bg-mustard-yellow': board[j-1][i-1] === 'yellow' }"
-                >
-                </div>
+            <div 
+                class="relative w-[34px] h-[34px] md:w-16 md:h-16 bg-royal-purple border-black border-[3px] rounded-full cursor-pointer 
+                shadow-counter border-solid text-custom-black"
+                :class="{ '!bg-salmon-pink shadow-counter-filled-small md:shadow-counter-filled-large': board[j-1][i-1] === 'red', '!bg-mustard-yellow shadow-counter-filled-small md:shadow-counter-filled-large': board[j-1][i-1] === 'yellow' }"
+            >
+            </div>
             </div>
         </div>
     </div>
