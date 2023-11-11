@@ -15,6 +15,7 @@ export const useGameStore = defineStore('game', () => {
     const playerTwoScore = ref(0)
 
     const winner = ref<'red' | 'yellow' | ''>('');
+    const winnerCords = ref<number[][]>([]);
 
     
     let timerId: number | null = null;
@@ -35,7 +36,7 @@ export const useGameStore = defineStore('game', () => {
         [1, 1], // diagonal right
         [-1, 1] // diagonal left
       ];
-    
+          
       for (let row = 0; row < NUMBER_OF_ROWS; row++) {
         for (let col = 0; col < NUMBER_OF_COLUMNS; col++) {
           if (board.value[col][row] !== playerName) continue;
@@ -44,14 +45,19 @@ export const useGameStore = defineStore('game', () => {
             let x = row;
             let y = col;
             let count = 0;
+            let tempWinnerCords = [];
     
             while (x >= 0 && y >= 0 && x < NUMBER_OF_ROWS && y < NUMBER_OF_COLUMNS && board.value[y][x] === playerName) {
+              tempWinnerCords.push([y, x]);
               x += dx;
               y += dy;
               count++;
             }
     
-            if (count >= 4) return true;
+            if (count >= 4) {
+              winnerCords.value.push(...tempWinnerCords);
+              return true;
+            }
           }
         }
       }
@@ -91,12 +97,14 @@ export const useGameStore = defineStore('game', () => {
       playerOneScore.value = 0
       playerTwoScore.value = 0
       winner.value = ''
+      winnerCords.value = []
       firstPlayerTurn.value = true
     }
 
     const playAgain = () => {
       clearTheBoard()
       winner.value = ''
+      winnerCords.value = []
       startTimer();
     }
 
@@ -146,6 +154,7 @@ export const useGameStore = defineStore('game', () => {
       timerId,
       winner,
       playAgain,
-      startPlayerVsPlayerMode
+      startPlayerVsPlayerMode,
+      winnerCords
     }
   })

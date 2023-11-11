@@ -5,7 +5,7 @@ import { useGameStore } from '../../store/game'
 
 const gameStore = useGameStore()
 const { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS, addNewCounter } = gameStore;
-const { currentColumn, board, firstPlayerTurn, winner } = storeToRefs(gameStore)
+const { currentColumn, board, firstPlayerTurn, winner, winnerCords } = storeToRefs(gameStore)
 
 const markerPosition = ref(0)
 const boardRef = ref<HTMLDivElement | null>(null)
@@ -45,9 +45,13 @@ onMounted(() => {
             >
             <div 
                 class="relative w-[34px] h-[34px] md:w-16 md:h-16 bg-royal-purple border-black border-[3px] rounded-full cursor-pointer 
-                shadow-counter border-solid text-custom-black"
+                shadow-counter border-solid text-custom-black grid place-items-center"
                 :class="{ '!bg-salmon-pink shadow-counter-filled-small md:shadow-counter-filled-large': board[j-1][i-1] === 'red', '!bg-mustard-yellow shadow-counter-filled-small md:shadow-counter-filled-large': board[j-1][i-1] === 'yellow' }"
             >
+            <div
+              :class="{'w-4 h-4 lg:w-8 lg:h-8 border-4 lg:border-[6px] border-white rounded-full': winnerCords.some(cord => cord[0] === j-1 && cord[1] === i-1)}"
+            >
+            </div>
             </div>
             </div>
         </div>
