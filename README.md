@@ -34,7 +34,7 @@
 
 ## About The Project
 
-![Website img](./screencapture.png)
+![Website img](./capture.png)
 
 The objective was to build a realistic and interactive Connect Four game that users can play on their browsers.
 <!-- TECHNOLOGIES -->
