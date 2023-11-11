@@ -90,10 +90,12 @@ export const useGameStore = defineStore('game', () => {
     const playAgain = () => {
       clearTheBoard()
       winner.value = ''
+      startTimer();
     }
 
     const endGame = (playerName: 'red' | 'yellow') => {
       playerName === 'red' ? playerOneScore.value++ : playerTwoScore.value++
+      clearTimeout(timerId!);
       winner.value = playerName
     }
 
@@ -108,11 +110,13 @@ export const useGameStore = defineStore('game', () => {
         if (timeLeft.value > 0) {
           timeLeft.value--;
         } else {
+          if (winner.value !== '') {
+            return
+          }
           // Time's up, current player loses
           endGame(firstPlayerTurn.value ? 'yellow' : 'red')
           firstPlayerTurn.value = !firstPlayerTurn.value
           clearTimeout(timerId!);
-          startTimer();
         }
       }, 1000);
     }
